@@ -15,7 +15,7 @@ $(call inherit-product, device/xiaomi/amethyst/device.mk)
 $(call inherit-product, vendor/twrp/config/common.mk)
 
 # Import OrangeFox specifics
-$(call inherit-product, device/xiaomi/amethyst/amethyst_amethyst.mk)
+$(call inherit-product, device/xiaomi/amethyst/fox_amethyst.mk)
 
 ## Device identifier
 PRODUCT_DEVICE := amethyst
