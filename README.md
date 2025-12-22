@@ -5,7 +5,7 @@ Currently waiting 72 hours for the bootloader unlock,
 this tree is just preparing (not functional yet)
 
 # Checklist
-- [ ] Fix gpt-utils (partitions)
+- [x] Fix gpt-utils (partitions)
 - [ ] Fix touchscreen (vendor drivers, libraries)
 - [ ] Fix decryption (libraries, services, rc order)
 - [ ] Fix fstab (partitions)
