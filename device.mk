@@ -21,6 +21,11 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 # devices
 TARGET_OTA_ASSERT_DEVICE := amethyst
 
+# Stop build system from stripping recovery binaries/configs
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/odm) \
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/lib)
+
 # Boot control, Firmware
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.2-impl-qti.recovery \
