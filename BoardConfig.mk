@@ -22,6 +22,7 @@ TARGET_2ND_CPU_VARIANT     :=
 TARGET_2ND_CPU_VARIANT_RUNTIME :=
 
 # Platform
+TARGET_BOOTLOADER_BOARD_NAME  := amethyst
 TARGET_BOARD_PLATFORM         := volcano
 TARGET_BOARD_PLATFORM_GPU     := qcom-adreno810
 TARGET_USES_UEFI              := true
