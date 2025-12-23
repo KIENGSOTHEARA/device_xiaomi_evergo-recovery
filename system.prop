@@ -6,6 +6,9 @@ vendor.gatekeeper.is_security_level_spu=0
 ro.hardware.keystore_desede=true
 fbe.metadata.wrappedkey=true
 
+# QSEE logging
+persist.sys.qseelogd=true
+
 # Haptics
 ro.vendor.mm.vibrator.sys_path=/sys/class/qcom-haptics
 
