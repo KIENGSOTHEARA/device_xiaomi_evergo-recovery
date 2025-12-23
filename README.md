@@ -8,7 +8,7 @@ this tree is just preparing (not functional yet)
 - [x] Fix gpt-utils (partitions)
 - [ ] Fix touchscreen (vendor drivers, libraries)
 - [ ] Fix decryption (libraries, services, rc order)
-- [ ] Fix fstab (partitions)
+- [x] Fix fstab (partitions)
 - [ ] Fix USB and init.rc's
 
 Also, if they are broken:
