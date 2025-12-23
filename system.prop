@@ -13,9 +13,6 @@ ro.hardware.keystore_desede=true
 # FUSE passthrough
 persist.sys.fuse.passthrough.enable=true
 
-# Dynamic Partitions
-ro.boot.dynamic_partitions=true
-
 # Charger suspend 
 ro.charger.enable_suspend=1
 
