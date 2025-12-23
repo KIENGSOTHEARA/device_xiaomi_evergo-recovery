@@ -12,9 +12,6 @@ persist.sys.qseelogd=true
 # Haptics
 ro.vendor.mm.vibrator.sys_path=/sys/class/qcom-haptics
 
-# Platform
-ro.board.platform=volcano
-
 # FUSE passthrough
 persist.sys.fuse.passthrough.enable=true
 
