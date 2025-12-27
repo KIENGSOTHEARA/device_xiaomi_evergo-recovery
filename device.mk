@@ -18,13 +18,13 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
 # Configure emulated_storage.mk
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
-# devices
-TARGET_OTA_ASSERT_DEVICE := amethyst
-
-# Stop build system from stripping recovery binaries/configs
+# Stop build system from stripping blobs
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/odm) \
-    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/lib)
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/firmware_mnt)
+
+# OTA device(s)
+TARGET_OTA_ASSERT_DEVICE := amethyst
 
 # Boot control, Firmware
 PRODUCT_PACKAGES += \
@@ -50,10 +50,10 @@ PRODUCT_PACKAGES += \
     checkpoint_gc
 
 # API
-PRODUCT_SHIPPING_API_LEVEL  := 31
+PRODUCT_SHIPPING_API_LEVEL  := 34
 PRODUCT_TARGET_VNDK_VERSION := 34
-BOARD_SHIPPING_API_LEVEL := 31
-SHIPPING_API_LEVEL := 31
+BOARD_SHIPPING_API_LEVEL := 34
+SHIPPING_API_LEVEL := 34
 
 # Display Size & Density
 TARGET_SCREEN_HEIGHT  := 2712
@@ -128,10 +128,9 @@ TW_BRIGHTNESS_PATH      := "/sys/class/backlight/panel0-backlight/brightness"
 # Vendor modules required for the recovery to function properly
 TW_LOAD_VENDOR_MODULES  += "panel_event_notifier.ko xiaomi_touch.ko goodix_core.ko
 TW_LOAD_VENDOR_MODULES  += focaltech_touch.ko dump_display.ko adsp_loader_dlkm.ko
-TW_LOAD_VENDOR_MODULES  += qti_battery_charger.ko camera.ko"
-TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI := true
+TW_LOAD_VENDOR_MODULES  += qti_battery_charger.ko fpc16xx.ko camera.ko"
+#TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI := true
 
-TW_BATTERY_SYSFS_WAIT_SECONDS := 6
 TW_EXCLUDE_DEFAULT_USB_INIT   := true
 TW_USE_SERIALNO_PROPERTY_FOR_DEVICE_ID := true
 
@@ -143,7 +142,9 @@ TW_SUPPORT_INPUT_AIDL_HAPTICS_FIX_OFF := true
 TW_INCLUDE_CRYPTO               := true
 TW_INCLUDE_CRYPTO_FBE           := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
+TW_INCLUDE_OMAPI                := true
 BOARD_USES_QCOM_FBE_DECRYPTION  := true
+
 PLATFORM_VERSION                := 99.87.36
 PLATFORM_VERSION_LAST_STABLE    := $(PLATFORM_VERSION)
 

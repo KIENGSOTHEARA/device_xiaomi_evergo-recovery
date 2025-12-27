@@ -29,9 +29,9 @@ TARGET_USES_UEFI              := true
 BOARD_USES_QCOM_HARDWARE      := true
 
 # Kernel / Recovery image
+TARGET_PREBUILT_KERNEL        := $(DEVICE_PATH)/prebuilt/kernel
 TARGET_KERNEL_ARCH            := arm64
 TARGET_KERNEL_HEADER_ARCH     := arm64
-TARGET_PREBUILT_KERNEL        := /dev/null # empty kernel image
 
 BOARD_KERNEL_PAGESIZE         := 4096
 BOARD_KERNEL_IMAGE_NAME       := Image
@@ -39,12 +39,12 @@ BOARD_BOOT_HEADER_VERSION     := 4
 BOARD_MKBOOTIMG_ARGS          += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_MKBOOTIMG_ARGS          += --pagesize $(BOARD_KERNEL_PAGESIZE)
 
-# GSI && GKI
+# Generic system/kernel image
 BOARD_USES_GENERIC_KERNEL_IMAGE := true
 BOARD_MOVE_GSI_AVB_KEYS_TO_VENDOR_BOOT := true
 BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE := true
 
-# Despite being VA/B device, there is a dedicated recovery partition
+# VA/B with recovery partition. Leave this blank as Google recommends
 BOARD_USES_RECOVERY_AS_BOOT :=
 BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT :=
 
@@ -101,16 +101,18 @@ BOARD_PARTITION_LIST := $(call to-upper, $(BOARD_QTI_DYNAMIC_PARTITIONS_PARTITIO
 $(foreach p, $(BOARD_PARTITION_LIST), $(eval BOARD_$(p)IMAGE_FILE_SYSTEM_TYPE := erofs))
 $(foreach p, $(BOARD_PARTITION_LIST), $(eval TARGET_COPY_OUT_$(p) := $(call to-lower, $(p))))
 
+# Don't forget about system_dlkm
 BOARD_PARTITION_LIST += SYSTEM_DLKM
 TARGET_COPY_OUT_SYSTEM_DLKM := system_dlkm
+BOARD_SYSTEM_DLKMIMAGE_FILE_SYSTEM_TYPE := erofs
+
+# Workaround for error copying vendor files to recovery ramdisk
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 
 # Filesystems
 TARGET_USERIMAGES_USE_EXT4    := true
 TARGET_USERIMAGES_USE_F2FS    := true
 TARGET_USES_MKE2FS            := true
-
-# Workaround for error copying vendor files to recovery ramdisk
-BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 
 # Recovery
 TARGET_SYSTEM_PROP := \

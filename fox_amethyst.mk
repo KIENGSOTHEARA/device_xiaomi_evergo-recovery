@@ -18,14 +18,14 @@ OF_AB_DEVICE_WITH_RECOVERY_PARTITION := 1
 OF_ENABLE_ALL_PARTITION_TOOLS := 1
 
 # Flashlight & LEDs
-OF_FL_PATH1	:= /system/etc/flashlight
+OF_FL_PATH1	:= /tmp/of_torch
 OF_USE_GREEN_LED := 0
 
 # Remove the loop block errors after flashing ZIPs (Workaround)
 OF_LOOP_DEVICE_ERRORS_TO_LOG := 1
 
 # Security (Disables MTP & ADB during password prompt)
-OF_ADVANCED_SECURITY := 1
+#OF_ADVANCED_SECURITY := 1
 
 # Ensure that /sdcard is bind-unmounted before f2fs data repair or format
 OF_UNBIND_SDCARD_F2FS := 1

@@ -1,16 +1,12 @@
 # Gatekeeper
-vendor.gatekeeper.disable_spu=true
-vendor.gatekeeper.is_security_level_spu=0
+# vendor.gatekeeper.disable_spu=true
+# vendor.gatekeeper.is_security_level_spu=0
 
 # Keystore / Keymaster
-ro.hardware.keystore_desede=true
 fbe.metadata.wrappedkey=true
 
 # QSEE logging
 persist.sys.qseelogd=true
-
-# Haptics
-ro.vendor.mm.vibrator.sys_path=/sys/class/qcom-haptics
 
 # FUSE passthrough
 persist.sys.fuse.passthrough.enable=true
@@ -20,3 +16,9 @@ ro.charger.enable_suspend=1
 
 # ADB
 ro.adb.secure=0
+
+# Haptics
+ro.odm.mm.vibrator.sys_path=/sys/bus/i2c/drivers/awinic_haptic/7-005a
+ro.odm.mm.vibrator.device_type=ff
+ro.odm.mm.vibrator.resonant_frequency=170
+ro.odm.mm.vibrator.slide_effect_protect_time=20

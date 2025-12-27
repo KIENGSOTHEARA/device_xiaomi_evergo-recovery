@@ -172,8 +172,9 @@
             <instance>wigigp2p</instance>
         </interface>
     </hal>
-    <hal format="aidl" optional="true">
+    <hal format="aidl">
         <name>android.se.omapi</name>
+        <version>1</version>
         <interface>
             <name>ISecureElementService</name>
             <instance>default</instance>

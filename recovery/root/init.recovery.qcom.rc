@@ -1,45 +1,37 @@
-# Set SELinux to Permissive
+import init.recovery.encryption.rc
+
 on early-init
+    loglevel 7
     write /sys/fs/selinux/enforce 0
     write /proc/sys/kernel/firmware_config/force_sysfs_fallback 1
+    export LD_LIBRARY_PATH /vendor/lib64:/vendor/lib64/hw:/system/lib64:/vendor/odm/lib64
+
+on property:twrp.modules.loaded=true
+    mkdir /firmware
+    mkdir /vendor/firmware_mnt
+
+    mkdir /mnt/vendor
+    mkdir /mnt/vendor/persist
+
+    mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro
+    mount none /firmware /vendor/firmware_mnt bind
+    mount ext4 /dev/block/bootdevice/by-name/persist /mnt/vendor/persist ro
+
+    wait /sys/kernel/boot_adsp/boot
+    write /sys/kernel/boot_adsp/boot 1
+
+    setprop twrp.firmware.mounted true
+
+on init
+    start boot-hal-1-2
 
 on early-fs
     write /proc/sys/walt/sched_lib_name "recovery,magiskboot,Updater,updater,update_engine_sideload"
     write /proc/sys/walt/sched_lib_mask_force 255
 
-on init
-    start boot-hal-1-2
-
-on init
-    wait /sys/class/power_supply/battery
-    start health-hal-2-1
-
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
 
-on fs
-    chmod 0660 /dev/qseecom
-    chown system drmrpc /dev/qseecom
-    chmod 0664 /dev/ion
-    chown system system /dev/ion
-    install_keyring
-
 on boot
     setprop sys.usb.config adb
-
-# Haptic feedback
-on boot
-    write /sys/class/leds/vibrator/trigger transient
-    start vibratorfeature-hal-service
-
-on property:twrp.modules.loaded=true
-    mkdir /firmware
-    mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro
-    wait /sys/kernel/boot_adsp/boot
-    write /sys/kernel/boot_adsp/boot 1
-
-# Symlink Flashlight
-on property:twrp.modules.loaded=true
-    symlink /sys/class/leds/led:torch/brightness /system/etc/flashlight/brightness
-#

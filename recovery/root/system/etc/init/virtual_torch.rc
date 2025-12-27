@@ -1,0 +1,9 @@
+service virtual_torch /system/bin/torch_fix.sh
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
+on property:twrp.modules.loaded=true
+    wait /sys/class/leds/led:switch_0
+    start virtual_torch
