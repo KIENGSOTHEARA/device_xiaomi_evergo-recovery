@@ -46,6 +46,8 @@
  fi
 
  export LC_ALL="C"
+ export BUILD_USERNAME=chickendrop89
+ export BUILD_HOSTNAME=github
 
  # Debugging
  ## export FOX_RESET_SETTINGS=0
