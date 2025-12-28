@@ -9,7 +9,7 @@ OF_STATUS_INDENT_RIGHT := 48
 OF_ALLOW_DISABLE_NAVBAR := 0
 OF_CLOCK_POS := 1 # Left & Right
 
-# MIUI & Custom ROMs
+# HOS & Custom ROMs
 OF_NO_TREBLE_COMPATIBILITY_CHECK := 1
 OF_DEFAULT_KEYMASTER_VERSION := 4.1
 
@@ -27,7 +27,10 @@ OF_LOOP_DEVICE_ERRORS_TO_LOG := 1
 # Security (Disables MTP & ADB during password prompt)
 #OF_ADVANCED_SECURITY := 1
 
-# Ensure that /sdcard is bind-unmounted before f2fs data repair or format
+# Breaks everything, needs investigation
+OF_NO_SPLASH_CHANGE := 1
+
+# Ensure that /sdcard is unbinded before f2fs data repair or format
 OF_UNBIND_SDCARD_F2FS := 1
 
 # Number of list options before scrollbar creation
