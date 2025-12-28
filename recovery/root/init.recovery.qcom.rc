@@ -4,7 +4,6 @@ on early-init
     loglevel 7
     write /sys/fs/selinux/enforce 0
     write /proc/sys/kernel/firmware_config/force_sysfs_fallback 1
-    export LD_LIBRARY_PATH /vendor/lib64:/vendor/lib64/hw:/system/lib64:/vendor/odm/lib64
 
 on property:twrp.modules.loaded=true
     mkdir /firmware 0775 shell system
