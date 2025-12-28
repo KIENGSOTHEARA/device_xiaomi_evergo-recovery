@@ -1,4 +1,4 @@
-service virtual_torch /system/bin/torch_fix.sh
+service virtual_torch /system/bin/virtual_torch.sh
     user root
     group root
     disabled
