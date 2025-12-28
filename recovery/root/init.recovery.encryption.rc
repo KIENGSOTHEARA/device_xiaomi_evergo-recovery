@@ -12,12 +12,12 @@ on property:vendor.sys.listeners.registered=true
 
 # Runs during post-fs-data
 on property:ro.crypto.state=encrypted && property:twrp.firmware.mounted=true
-    start prepdecrypt.vendor
+    start vendor.prepdecrypt
 
-# Runs after prepdecrypt.vendor exits
+# Runs after vendor.prepdecrypt exits
 on property:crypto.ready=1
     start vendor.keymint-strongbox
-    start vendor.weaver_hal_service
+    start vendor.weaver
     start vendor.secure_element
     install_keyring
 
@@ -27,7 +27,7 @@ on property:twrp.all.users.decrypted=true
 
     stop keystore2
     stop vendor.secure_element
-    stop vendor.weaver_hal_service
+    stop vendor.weaver
     stop vendor.keymint-strongbox
     stop vendor.keymint-qti
     stop vendor.qseecomd

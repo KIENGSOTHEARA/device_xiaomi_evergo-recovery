@@ -5,9 +5,9 @@ service vendor.ssgtzd /vendor/bin/ssgtzd
     class late_start
     user system
     group system oem_2912 wakelock
-    capabilities WAKE_ALARM BLOCK_SUSPEND
     socket ssgtzd stream 0660 system oem_2912
     socket ssgtzd_opener stream 0660 system system
+    capabilities WAKE_ALARM BLOCK_SUSPEND
     setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib64/hw:/system/lib64:/bin
     seclabel u:r:recovery:s0
     disabled

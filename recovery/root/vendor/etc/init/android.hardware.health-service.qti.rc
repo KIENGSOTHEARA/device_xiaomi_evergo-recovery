@@ -1,8 +1,8 @@
 on fs
     wait /sys/class/power_supply/battery
-    start vendor.health-default
+    start vendor.health-qti
 
-service vendor.health-default /vendor/bin/hw/android.hardware.health-service.qti
+service vendor.health-qti /vendor/bin/hw/android.hardware.health-service.qti
     class hal
     user system
     group system

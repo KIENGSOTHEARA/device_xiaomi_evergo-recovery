@@ -1,4 +1,4 @@
-service prepdecrypt.vendor /vendor/bin/prepdecrypt.sh
+service vendor.prepdecrypt /vendor/bin/prepdecrypt.sh
     user root
     group root
     oneshot

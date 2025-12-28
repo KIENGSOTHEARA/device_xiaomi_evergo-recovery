@@ -22,6 +22,9 @@ on property:twrp.modules.loaded=true
     
     setprop twrp.firmware.mounted true
 
+    wait /dev/xiaomi-touch 30
+    start touchfeature-service
+
 on init
     start boot-hal-1-2
 
