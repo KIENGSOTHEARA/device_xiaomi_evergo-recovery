@@ -1,8 +1,9 @@
 # Keystore / Keymaster
 fbe.metadata.wrappedkey=true
 
-# QSEE logging
+# Logging
 persist.sys.qseelogd=true
+persist.logd.size=8M
 
 # FUSE passthrough
 persist.sys.fuse.passthrough.enable=true
