@@ -7,11 +7,12 @@ on early-init
     export LD_LIBRARY_PATH /vendor/lib64:/vendor/lib64/hw:/system/lib64:/vendor/odm/lib64
 
 on property:twrp.modules.loaded=true
-    mkdir /firmware
-    mkdir /vendor/firmware_mnt
+    mkdir /firmware 0775 shell system
+    mkdir /vendor/firmware_mnt 0775 shell system
 
-    mkdir /mnt/vendor
-    mkdir /mnt/vendor/persist
+    mkdir /mnt/vendor 0775 shell system
+    mkdir /mnt/vendor/persist 0775 shell system
+    mkdir /tmp/persist 0775 shell system
 
     mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro
     mount none /firmware /vendor/firmware_mnt bind
@@ -19,7 +20,7 @@ on property:twrp.modules.loaded=true
 
     wait /sys/kernel/boot_adsp/boot
     write /sys/kernel/boot_adsp/boot 1
-
+    
     setprop twrp.firmware.mounted true
 
 on init
