@@ -1,54 +1,108 @@
 #!/bin/bash
+#
+#	This file is part of the OrangeFox Recovery Project
+# Copyright (C) 2025-2026 The OrangeFox Recovery Project
+#
+#	OrangeFox is free software: you can redistribute it and/or modify
+#	it under the terms of the GNU General Public License as published by
+#	the Free Software Foundation, either version 3 of the License, or
+#	any later version.
+#
+#	OrangeFox is distributed in the hope that it will be useful,
+#	but WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#	GNU General Public License for more details.
+#
+# This software is released under GPL version 3 or any later version.
+#	See <http://www.gnu.org/licenses/>.
+#
+# Please maintain this if you use this script or any part of it
+#
+FDEVICE="amethyst"
 
- export TARGET_DEVICE_ALT="amethyst"
+fox_get_target_device() {
+    local chkdev=""
+    
+    if [ -n "$ZSH_VERSION" ]; 
+      then
+        local current_source="${(%):-%x}"
+        chkdev=$(echo "$current_source" | grep -w "$FDEVICE")
+    elif [ -n "$BASH_VERSION" ];
+      then chkdev=$(echo "$BASH_SOURCE" | grep -w "$FDEVICE")
+    fi
 
- # Binaries & Tools
- export FOX_USE_BASH_SHELL=1
- export FOX_USE_TAR_BINARY=1
- export FOX_USE_SED_BINARY=1
- export FOX_USE_XZ_UTILS=1
- export FOX_USE_ZSTD_BINARY=1
- export FOX_USE_DATE_BINARY=1
+    if [ -n "$chkdev" ]; 
+      then FOX_BUILD_DEVICE="$FDEVICE"
+    else
+        if [ -n "$BASH_VERSION" ]; 
+          then chkdev=$(set | grep BASH_ARGV | grep -w "$FDEVICE")
+        elif [ -n "$ZSH_VERSION" ]; 
+          then chkdev=$(echo "$*" | grep -w "$FDEVICE")
+        fi
+        [ -n "$chkdev" ] && FOX_BUILD_DEVICE="$FDEVICE"
+    fi
+}
 
- # OrangeFox Addons
- export FOX_ENABLE_APP_MANAGER=1
- export OF_ENABLE_FRP_ADDON=1
- export FOX_DELETE_AROMAFM=1
- export FOX_DELETE_INITD_ADDON=1
+if [ -z "$1" -a -z "$FOX_BUILD_DEVICE" ]; 
+  then fox_get_target_device
+fi
 
- # KernelSU / SukiSu support
- export FOX_ENABLE_KERNELSU_SUPPORT=1
- export FOX_ENABLE_KERNELSU_NEXT_SUPPORT=1
- export FOX_ENABLE_SUKISU_SUPPORT=1
-
- # A/B partitioning
- export FOX_VIRTUAL_AB_DEVICE=1
- export FOX_RECOVERY_SYSTEM_PARTITION="/dev/block/mapper/system"
- export FOX_RECOVERY_VENDOR_PARTITION="/dev/block/mapper/vendor"
-
- # Store settings at /data/recovery instead of internal storage
- # export FOX_USE_DATA_RECOVERY_FOR_SETTINGS=1
-
- # Use latest "magiskboot" binaries as this is a relatively new device
- export FOX_USE_UPDATED_MAGISKBOOT=1
-
- # CCACHE
- export USE_CCACHE=1
- export CCACHE_EXEC="/usr/bin/ccache"
- export CCACHE_MAXSIZE="50G"
- export CCACHE_DIR="/mnt/ccache"
-
- # Warn if CCACHE_DIR is an invalid directory
- if [ $USE_CCACHE = 1 ] && [ ! -d ${CCACHE_DIR} ];
+if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ];
   then
-    echo "CCACHE Directory/Partition is not mounted at \"${CCACHE_DIR}\""
-    echo "Please edit the CCACHE_DIR build variable or mount the directory."
- fi
+    export TARGET_DEVICE_ALT="amethyst"
 
- export LC_ALL="C"
- export BUILD_USERNAME=chickendrop89
- export BUILD_HOSTNAME=github
+    # Binaries & Tools
+    export FOX_USE_BASH_SHELL=1
+    export FOX_USE_TAR_BINARY=1
+    export FOX_USE_SED_BINARY=1
+    export FOX_USE_XZ_UTILS=1
+    export FOX_USE_ZSTD_BINARY=1
+    export FOX_USE_DATE_BINARY=1
 
- # Debugging
- ## export FOX_RESET_SETTINGS=0
- ## export FOX_INSTALLER_DEBUG_MODE=1
+    # OrangeFox Addons
+    export FOX_ENABLE_APP_MANAGER=1
+    export OF_ENABLE_FRP_ADDON=1
+    export FOX_DELETE_AROMAFM=1
+    export FOX_DELETE_INITD_ADDON=1
+
+    # KernelSU / SukiSu support
+    export FOX_ENABLE_KERNELSU_SUPPORT=1
+    export FOX_ENABLE_KERNELSU_NEXT_SUPPORT=1
+    export FOX_ENABLE_SUKISU_SUPPORT=1
+
+    # A/B partitioning
+    export FOX_VIRTUAL_AB_DEVICE=1
+    export FOX_RECOVERY_SYSTEM_PARTITION="/dev/block/mapper/system"
+    export FOX_RECOVERY_VENDOR_PARTITION="/dev/block/mapper/vendor"
+
+    # Store settings at /data/recovery instead of internal storage
+    # export FOX_USE_DATA_RECOVERY_FOR_SETTINGS=1
+
+    # Use latest "magiskboot" binaries as this is a relatively new device
+    export FOX_USE_UPDATED_MAGISKBOOT=1
+
+    # CCACHE
+    export USE_CCACHE=1
+    export CCACHE_EXEC="/usr/bin/ccache"
+    export CCACHE_MAXSIZE="50G"
+    export CCACHE_DIR="/mnt/ccache"
+
+    # Warn if CCACHE_DIR is an invalid directory
+    if [ $USE_CCACHE = 1 ] && [ ! -d ${CCACHE_DIR} ];
+     then
+       echo "CCACHE Directory/Partition is not mounted at \"${CCACHE_DIR}\""
+       echo "Please edit the CCACHE_DIR build variable or mount the directory."
+    fi
+
+    export LC_ALL="C"
+    export BUILD_USERNAME=chickendrop89
+    export BUILD_HOSTNAME=github
+
+    # Debugging
+    ## export FOX_RESET_SETTINGS=0
+    ## export FOX_INSTALLER_DEBUG_MODE=1
+  else
+    if [ -z "$FOX_BUILD_DEVICE" ] && [ -z "$BASH_SOURCE" ] && [ -z "$ZSH_VERSION" ]; 
+      then echo "I: This script requires bash or zsh. Not processing $FDEVICE"
+    fi
+fi
