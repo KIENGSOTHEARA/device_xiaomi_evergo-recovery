@@ -1,7 +1,3 @@
-# Gatekeeper
-# vendor.gatekeeper.disable_spu=true
-# vendor.gatekeeper.is_security_level_spu=0
-
 # Keystore / Keymaster
 fbe.metadata.wrappedkey=true
 
