@@ -6,4 +6,4 @@
 
 PRODUCT_MAKEFILES := $(LOCAL_DIR)/twrp_amethyst.mk
 
-COMMON_LUNCH_CHOICES := twrp_amethyst-eng
+COMMON_LUNCH_CHOICES := twrp_amethyst-ap2a-eng
