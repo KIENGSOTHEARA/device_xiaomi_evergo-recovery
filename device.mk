@@ -127,8 +127,8 @@ TW_BRIGHTNESS_PATH      := "/sys/class/backlight/panel0-backlight/brightness"
 
 # Vendor modules required for the recovery to function properly
 TW_LOAD_VENDOR_MODULES  += "panel_event_notifier.ko xiaomi_touch.ko goodix_core.ko
-TW_LOAD_VENDOR_MODULES  += focaltech_touch.ko dump_display.ko adsp_loader_dlkm.ko
-TW_LOAD_VENDOR_MODULES  += qti_battery_charger.ko fpc16xx.ko camera.ko"
+TW_LOAD_VENDOR_MODULES  += focaltech_touch.ko adsp_loader_dlkm.ko
+TW_LOAD_VENDOR_MODULES  += qti_battery_charger.ko camera.ko"
 #TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI := true
 
 TW_EXCLUDE_DEFAULT_USB_INIT   := true
