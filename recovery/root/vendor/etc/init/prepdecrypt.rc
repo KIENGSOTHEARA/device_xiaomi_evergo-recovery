@@ -3,3 +3,5 @@ service vendor.prepdecrypt /vendor/bin/prepdecrypt.sh
     group root
     oneshot
     seclabel u:r:recovery:s0
+    ioprio rt 3
+
