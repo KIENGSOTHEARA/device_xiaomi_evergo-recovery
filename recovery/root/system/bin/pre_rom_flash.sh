@@ -32,13 +32,7 @@ do_prep() {
 		mkdir -p $directory;
 	fi
 
-	directory=/metadata/ota/;
 	mount /metadata 2>/dev/null;
-
-	if [ -d $directory ]; then
-		LOGMSG "Wiping $directory ...";
-		rm -rf $directory;
-	fi
 }
 
 backup_fox() {
