@@ -33,6 +33,12 @@ do_prep() {
 	fi
 
 	mount /metadata 2>/dev/null;
+
+	metadata_ota=/metadata/ota;
+	if [ ! -d $metadata_ota ]; then
+		LOGMSG "Creating $metadata_ota ...";
+		mkdir -p $metadata_ota;
+	fi
 }
 
 backup_fox() {
