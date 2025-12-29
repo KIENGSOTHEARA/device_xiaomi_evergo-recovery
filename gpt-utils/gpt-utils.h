@@ -88,7 +88,7 @@ extern "C" {
 	"dsp", "dtbo", "featenabler", "hyp", "imagefv", "init_boot", \
 	"keymaster", "pvmfw", "qupfw", "qweslicstore", "recovery", \
 	"shrm", "tz", "uefi", "uefisecapp", "vbmeta", "vbmeta_system", \
-	"vendor_boot", "xbl_config_nof", "xbl_ramdump", "modem", "bluetooth"
+	"vendor_boot", "xbl_ramdump", "modem", "bluetooth"
 
 #define AB_PTN_LIST \
     PTN_SWAP_LIST, "boot", "system", "system_dlkm", "system_ext", \
