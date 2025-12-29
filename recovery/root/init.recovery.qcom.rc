@@ -36,8 +36,13 @@ on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
 
-    write /sys/block/sda/queue/read_ahead_kb 2048 # All in recovery.fstab
-    write /sys/block/sdf/queue/read_ahead_kb 2048 # Persist
+    # All entries in recovery.fstab
+    write /sys/block/sda/queue/read_ahead_kb 2048
+    write /sys/block/sda/queue/nr_requests 256
+
+    # Persist partition
+    write /sys/block/sdf/queue/read_ahead_kb 2048
+    write /sys/block/sdf/queue/nr_requests 256
 
 on boot
     setprop sys.usb.config adb
