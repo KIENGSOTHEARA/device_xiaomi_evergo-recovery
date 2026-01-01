@@ -18,11 +18,6 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
 # Configure emulated_storage.mk
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
-# Stop build system from stripping blobs
-PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/odm) \
-    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/firmware_mnt)
-
 # OTA device(s)
 TARGET_OTA_ASSERT_DEVICE := amethyst
 
@@ -48,6 +43,14 @@ PRODUCT_PACKAGES_DEBUG += \
 PRODUCT_PACKAGES += \
     otapreopt_script \
     checkpoint_gc
+
+# Symlink /vendor/firmware to /odm/firmware for haptics and touchfeature
+BOARD_ROOT_EXTRA_SYMLINKS += /vendor/firmware:/vendor/odm/firmware
+
+# Stop build system from stripping blobs
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/odm) \
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/firmware_mnt)
 
 # API
 PRODUCT_SHIPPING_API_LEVEL  := 34
