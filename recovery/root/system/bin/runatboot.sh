@@ -1,26 +1,37 @@
 #!/system/bin/sh
 
-# Load touch drivers/services if they didn't load properly
+# Load batterysecret, and touch drivers/services if they didn't load properly
 #
 # Author: chickendrop89
 
-DRIVERS="panel_event_notifier xiaomi_touch goodix_core focaltech_touch"
 MODULES_DIR="/vendor/lib/modules"
+QCOM_BATTERY_DIR="/sys/class/qcom-battery"
 
-for d in $DRIVERS; do
-    lsmod | grep -q "^$d" && continue
-    path=$(find "$MODULES_DIR" -name "$d.ko" | head -n 1)
-    if [ -f "$path" ]; 
-        then 
-            insmod "$path"
-            echo "Force inserted module: $d" >> /tmp/recovery.log
-    fi
+DRIVERS="panel_event_notifier xiaomi_touch goodix_core focaltech_touch"
+TOUCH_SVC_STATUS=$(getprop init.svc.touchfeature-service)
+
+( # For batterysecret (async)
+    while [ ! -d "$QCOM_BATTERY_DIR" ]; 
+        do sleep 1
+    done
+    setprop vendor.qcom_battery.initialized true
+) &
+
+for d in $DRIVERS;
+    do
+        lsmod | grep -q "^$d" && continue
+        path=$(find "$MODULES_DIR" -name "$d.ko" | head -n 1)
+        if [ -f "$path" ]; 
+            then 
+                insmod "$path"
+                echo "Force inserted module: $d" >> /tmp/recovery.log
+        fi
 done
 
-SVC_STATUS=$(getprop init.svc.touchfeature-service)
-
-if [ "$SVC_STATUS" != "running" ]; 
+if [ "$TOUCH_SVC_STATUS" != "running" ]; 
     then 
         setprop ctl.start touchfeature-service
         echo "Forced touchscreen service start" >> /tmp/recovery.log
 fi
+
+exit 0
