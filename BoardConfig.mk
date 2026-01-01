@@ -22,8 +22,8 @@ BOARD_USES_QCOM_HARDWARE      := true
 
 # Kernel / Recovery image
 TARGET_PREBUILT_KERNEL        := $(DEVICE_PATH)/prebuilt/kernel
-TARGET_KERNEL_ARCH            := arm64
-TARGET_KERNEL_HEADER_ARCH     := arm64
+TARGET_KERNEL_ARCH            := $(TARGET_ARCH)
+TARGET_KERNEL_HEADER_ARCH     := $(TARGET_ARCH)
 
 BOARD_KERNEL_PAGESIZE         := 4096
 BOARD_KERNEL_IMAGE_NAME       := kernel
