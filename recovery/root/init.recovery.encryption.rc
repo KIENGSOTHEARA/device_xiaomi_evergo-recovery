@@ -27,6 +27,7 @@ on property:twrp.all.users.decrypted=true
 
     stop keystore2
     stop vendor.secure_element
+    stop se_omapi
     stop vendor.weaver
     stop vendor.keymint-strongbox
     stop vendor.keymint-qti
