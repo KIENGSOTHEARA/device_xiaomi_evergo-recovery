@@ -41,3 +41,6 @@ OF_QUICK_BACKUP_LIST := /boot;/persist_image
 
 # Use legacy code to fix quirky clock issues
 OF_USE_LEGACY_TIME_FIXUP := 1
+
+# Force casefolding to avoid /data issues
+OF_FORCE_CASEFOLDING := 1
