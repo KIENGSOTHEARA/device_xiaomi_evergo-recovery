@@ -32,6 +32,7 @@
 /******************************************************************************
  * INCLUDE SECTION
  ******************************************************************************/
+#include <stdio.h>
 #include <fcntl.h>
 #include <string.h>
 #include <errno.h>
@@ -157,18 +158,11 @@ static int blk_rw(int fd, int rw, int64_t offset, uint8_t *buf, unsigned len)
     else
         r = read(fd, buf, len);
 
-    if (r < 0) {
+    if (r < 0)
         fprintf(stderr, "block dev %s failed: %s\n", rw ? "write" : "read",
                 strerror(errno));
-    } else {
-        if (rw) {
-            r = fsync(fd);
-            if (r < 0)
-                fprintf(stderr, "fsync failed: %s\n", strerror(errno));
-        } else {
-            r = 0;
-        }
-    }
+    else
+        r = 0;
 
     return r;
 }
@@ -248,9 +242,9 @@ static int gpt_boot_chain_swap(const uint8_t *pentries_start,
         uint8_t ptn_swap[PTN_ENTRY_SIZE];
         //Skip the xbl, multiimgoem, multiimgqti partitions on UFS devices. That is handled
         //seperately.
-        if (gpt_utils_is_ufs_device() && (!strncmp(ptn_swap_list[i],PTN_XBL,strlen(PTN_XBL))
-            || !strncmp(ptn_swap_list[i],PTN_MULTIIMGOEM,strlen(PTN_MULTIIMGOEM))
-            || !strncmp(ptn_swap_list[i],PTN_MULTIIMGQTI,strlen(PTN_MULTIIMGQTI))))
+        if (gpt_utils_is_ufs_device() && (!strncmp(ptn_swap_list[i],PTN_XBL,strlen(ptn_swap_list[i]))
+            || !strncmp(ptn_swap_list[i],PTN_MULTIIMGOEM,strlen(ptn_swap_list[i]))
+            || !strncmp(ptn_swap_list[i],PTN_MULTIIMGQTI,strlen(ptn_swap_list[i]))))
             continue;
 
         ptn_entry = gpt_pentry_seek(ptn_swap_list[i], pentries_start,
@@ -545,158 +539,142 @@ int get_scsi_node_from_bootdevice(const char *bootdev_path,
 {
         char sg_dir_path[PATH_MAX] = {0};
         char real_path[PATH_MAX] = {0};
+        char *lun_name = NULL;
         DIR *scsi_dir = NULL;
         struct dirent *de;
         int node_found = 0;
+
         if (!bootdev_path || !sg_node_path) {
-                fprintf(stderr, "%s : invalid argument\n",
-                                 __func__);
-                goto error;
+                fprintf(stderr, "%s: invalid argument\n", __func__);
+                return -1;
         }
+
+        // 1. Resolve /dev/block/bootdevice/by-name/xbl_a -> /dev/block/sdb1
         if (readlink(bootdev_path, real_path, sizeof(real_path) - 1) < 0) {
-                        fprintf(stderr, "failed to resolve link for %s(%s)\n",
-                                        bootdev_path,
-                                        strerror(errno));
-                        goto error;
+                fprintf(stderr, "failed to resolve link for %s: %s\n",
+                                bootdev_path, strerror(errno));
+                return -1;
         }
-        if(strlen(real_path) < PATH_TRUNCATE_LOC + 1){
-            fprintf(stderr, "Unrecognized path :%s:\n",
-                           real_path);
-            goto error;
+
+        // 2. Find the start of the device name (sdb1)
+        lun_name = strrchr(real_path, '/');
+        if (!lun_name) {
+                fprintf(stderr, "Unrecognized path format: %s\n", real_path);
+                return -1;
         }
-        //For the safe side in case there are additional partitions on
-        //the XBL lun we truncate the name.
-        real_path[PATH_TRUNCATE_LOC] = '\0';
-        if(strlen(real_path) < LUN_NAME_START_LOC + 1){
-            fprintf(stderr, "Unrecognized truncated path :%s:\n",
-                           real_path);
-            goto error;
+        lun_name++; // Move past the '/'
+
+        // 3. Strip partition number (sdb1 -> sdb)
+        // This ensures we look in /sys/block/sdb/ and not /sys/block/sdb1/
+        for (int i = 0; lun_name[i] != '\0'; i++) {
+                if (lun_name[i] >= '0' && lun_name[i] <= '9') {
+                        lun_name[i] = '\0';
+                        break;
+                }
         }
-        //This will give us /dev/block/sdb/device/scsi_generic
-        //which contains a file sgY whose name gives us the path
-        //to /dev/sgY which we return
+
+        // 4. Construct path to scsi_generic directory
         snprintf(sg_dir_path, sizeof(sg_dir_path) - 1,
                         "/sys/block/%s/device/scsi_generic",
-                        &real_path[LUN_NAME_START_LOC]);
+                        lun_name);
+
         scsi_dir = opendir(sg_dir_path);
         if (!scsi_dir) {
-                fprintf(stderr, "%s : Failed to open %s(%s)\n",
-                                __func__,
-                                sg_dir_path,
-                                strerror(errno));
-                goto error;
+                fprintf(stderr, "%s: Failed to open %s (%s)\n",
+                                __func__, sg_dir_path, strerror(errno));
+                return -1;
         }
-        while((de = readdir(scsi_dir))) {
+
+        // 5. Find the sg node (e.g., sg4)
+        while ((de = readdir(scsi_dir))) {
                 if (de->d_name[0] == '.')
                         continue;
-                else if (!strncmp(de->d_name, "sg", 2)) {
-                          snprintf(sg_node_path,
-                                        buf_size -1,
-                                        "/dev/%s",
-                                        de->d_name);
-                          fprintf(stderr, "%s:scsi generic node is :%s:\n",
-                                          __func__,
-                                          sg_node_path);
-                          node_found = 1;
-                          break;
+
+                if (!strncmp(de->d_name, "sg", 2)) {
+                        snprintf(sg_node_path, buf_size - 1, "/dev/%s", de->d_name);
+                        // Using fprintf to match your logs; use ALOGE if in AOSP env
+                        fprintf(stderr, "%s: Found SCSI generic node: %s for LUN: %s\n",
+                                        __func__, sg_node_path, lun_name);
+                        node_found = 1;
+                        break;
                 }
         }
-        if(!node_found) {
-                fprintf(stderr,"%s: Unable to locate scsi generic node\n",
-                               __func__);
-                goto error;
-        }
+
         closedir(scsi_dir);
+
+        if (!node_found) {
+                fprintf(stderr, "%s: Unable to locate sg node in %s\n",
+                               __func__, sg_dir_path);
+                return -1;
+        }
+
         return 0;
-error:
-        if (scsi_dir)
-                closedir(scsi_dir);
-        return -1;
 }
 
-
-
-//Swtich betwieen using either the primary or the backup
-//boot LUN for boot. This is required since UFS boot partitions
-//cannot have a backup GPT which is what we use for failsafe
-//updates of the other 'critical' partitions. This function will
-//not be invoked for emmc targets and on UFS targets is only required
-//to be invoked for XBL.
+// Switch between using either the primary or the backup
+// boot LUN for boot. This is required since UFS boot partitions
+// cannot have a backup GPT which is what we use for failsafe
+// updates of the other 'critical' partitions. This function will
+// not be invoked for emmc targets and on UFS targets is only required
+// to be invoked for XBL.
 //
-//The algorithm to do this is as follows:
-//- Find the real block device(eg: /dev/block/sdb) that corresponds
-//  to the /dev/block/bootdevice/by-name/xbl(bak) symlink
+// The algorithm to do this is as follows:
+// - Identify the boot chain (Normal/Backup) and locate the 
+//   corresponding block device symlink (e.g., xbl_a or xbl_b).
 //
-//- Once we have the block device 'node' name(sdb in the above example)
-//  use this node to to locate the scsi generic device that represents
-//  it by checking the file /sys/block/sdb/device/scsi_generic/sgY
+// - Resolve the symlink to its physical block device (e.g., /dev/block/sdb1)
+//   and dynamically parse the name to identify the parent disk (sdb).
 //
-//- Once we locate sgY we call the query ioctl on /dev/sgy to switch
-//the boot lun to either LUNA or LUNB
+// - Use the disk name to locate the scsi generic device node
+//   (e.g., /sys/block/sdb/device/scsi_generic/sgY).
+//
+// - On modern kernels, utilize the BSG (Block SCSI Generic) framework 
+//   by dynamically searching /dev/ for a 'ufs-bsg' or 'ufs-bsg0' node.
+//
+// - Once the appropriate node is found, call the SG_IO query ioctl 
+//   to switch the hardware boot LUN to either LUN A or LUN B.
 int gpt_utils_set_xbl_boot_partition(enum boot_chain chain)
 {
-        struct stat st;
-        ///sys/block/sdX/device/scsi_generic/
-        char sg_dev_node[PATH_MAX] = {0};
-        uint8_t boot_lun_id = 0;
-        const char *boot_dev = NULL;
+    struct stat st;
+    char sg_dev_node[PATH_MAX] = {0};
+    uint8_t boot_lun_id = 0;
+    const char *boot_dev = NULL;
 
-        if (chain == BACKUP_BOOT) {
-                boot_lun_id = BOOT_LUN_B_ID;
-                if (!stat(XBL_BACKUP, &st))
-                        boot_dev = XBL_BACKUP;
-                else if (!stat(XBL_AB_SECONDARY, &st))
-                        boot_dev = XBL_AB_SECONDARY;
-                else {
-                        fprintf(stderr, "%s: Failed to locate secondary xbl\n",
-                                        __func__);
-                        goto error;
-                }
-        } else if (chain == NORMAL_BOOT) {
-                boot_lun_id = BOOT_LUN_A_ID;
-                if (!stat(XBL_PRIMARY, &st))
-                        boot_dev = XBL_PRIMARY;
-                else if (!stat(XBL_AB_PRIMARY, &st))
-                        boot_dev = XBL_AB_PRIMARY;
-                else {
-                        fprintf(stderr, "%s: Failed to locate primary xbl\n",
-                                        __func__);
-                        goto error;
-                }
-        } else {
-                fprintf(stderr, "%s: Invalid boot chain id\n", __func__);
-                goto error;
-        }
-        //We need either both xbl and xblbak or both xbl_a and xbl_b to exist at
-        //the same time. If not the current configuration is invalid.
-        if((stat(XBL_PRIMARY, &st) ||
-                                stat(XBL_BACKUP, &st)) &&
-                        (stat(XBL_AB_PRIMARY, &st) ||
-                         stat(XBL_AB_SECONDARY, &st))) {
-                fprintf(stderr, "%s:primary/secondary XBL prt not found(%s)\n",
-                                __func__,
-                                strerror(errno));
-                goto error;
-        }
-        fprintf(stderr, "%s: setting %s lun as boot lun\n",
-                        __func__,
-                        boot_dev);
-        if (get_scsi_node_from_bootdevice(boot_dev,
-                                sg_dev_node,
-                                sizeof(sg_dev_node))) {
-                fprintf(stderr, "%s: Failed to get scsi node path for xblbak\n",
-                                __func__);
-                goto error;
-        }
-        /* set boot lun using /dev/sg or /dev/ufs-bsg* */
-        if (set_boot_lun(sg_dev_node, boot_lun_id)) {
-                fprintf(stderr, "%s: Failed to set xblbak as boot partition\n",
-                                __func__);
-                goto error;
-        }
-        return 0;
-error:
+    if (chain == BACKUP_BOOT) {
+        boot_lun_id = BOOT_LUN_B_ID;
+        if (!stat(XBL_AB_SECONDARY, &st))
+            boot_dev = XBL_AB_SECONDARY;
+        else if (!stat(XBL_BACKUP, &st))
+            boot_dev = XBL_BACKUP;
+    } 
+    else if (chain == NORMAL_BOOT) {
+        boot_lun_id = BOOT_LUN_A_ID;
+        if (!stat(XBL_AB_PRIMARY, &st))
+            boot_dev = XBL_AB_PRIMARY;
+        else if (!stat(XBL_PRIMARY, &st))
+            boot_dev = XBL_PRIMARY;
+    } 
+    else {
+        fprintf(stderr, "%s: Invalid boot chain id %d\n", __func__, chain);
         return -1;
+    }
+    if (!boot_dev) {
+        fprintf(stderr, "%s: Failed to locate XBL device for chain %d\n", __func__, chain);
+        return -1;
+    }
+
+    fprintf(stderr, "%s: setting %s lun as boot lun\n", __func__, boot_dev);
+
+    if (get_scsi_node_from_bootdevice(boot_dev, sg_dev_node, sizeof(sg_dev_node))) {
+        fprintf(stderr, "%s: Failed to get scsi node path for %s\n", __func__, boot_dev);
+        return -1;
+    }
+    if (set_boot_lun(sg_dev_node, boot_lun_id)) {
+        fprintf(stderr, "%s: Failed to set %s as boot partition\n", __func__, boot_dev);
+        return -1;
+    }
+
+    return 0;
 }
 
 int gpt_utils_is_ufs_device()
@@ -977,9 +955,9 @@ int prepare_boot_update(enum boot_update_stage stage)
                         //of being loaded based on well known GUID'S.
                         //We take care of switching the UFS boot LUN
                         //explicitly later on.
-                        if (!strncmp(ptn_swap_list[i],PTN_XBL,strlen(PTN_XBL))
-                            || !strncmp(ptn_swap_list[i],PTN_MULTIIMGOEM,strlen(PTN_MULTIIMGOEM))
-                            || !strncmp(ptn_swap_list[i],PTN_MULTIIMGQTI,strlen(PTN_MULTIIMGQTI)))
+                        if (!strncmp(ptn_swap_list[i],PTN_XBL,strlen(ptn_swap_list[i]))
+                            || !strncmp(ptn_swap_list[i],PTN_MULTIIMGOEM,strlen(ptn_swap_list[i]))
+                            || !strncmp(ptn_swap_list[i],PTN_MULTIIMGQTI,strlen(ptn_swap_list[i])))
                                 continue;
                         snprintf(buf, sizeof(buf),
                                         "%s/%sbak",
