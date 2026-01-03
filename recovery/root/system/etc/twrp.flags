@@ -26,8 +26,9 @@
 # Other partitions
 /cache                 ext4    /dev/block/bootdevice/by-name/rescue                               flags=display="Cache";formattable;wipeduringfactoryreset
 /misc                  emmc    /dev/block/bootdevice/by-name/misc
+/frp                   emmc    /dev/block/bootdevice/by-name/frp
 
-# Logs
+# UEFI boot logs
 /logfs                 vfat    /dev/block/bootdevice/by-name/logfs                                flags=display="LogFS (UEFI)";fsflags="fmask=0000,dmask=0000,utf8,shortname=mixed"
 
 # VBMeta/AVB partitions
@@ -75,9 +76,6 @@
 /shrm                  emmc    /dev/block/bootdevice/by-name/shrm                                 flags=backup=1;slotselect;subpartitionof=/abl
 /pvmfw                 emmc    /dev/block/bootdevice/by-name/pvmfw                                flags=backup=1;slotselect;subpartitionof=/abl
 /multiimgqti           emmc    /dev/block/bootdevice/by-name/multiimgqti                          flags=backup=1;slotselect;subpartitionof=/abl
-
-# Factory reset protection
-/frp                   emmc    /dev/block/bootdevice/by-name/frp                                  flags=display="FRP"
 
 # Removable storage
 /storage       	       auto    /data/media/0                  		                              flags=display="Internal Storage";backup=1;usermrf;fsflags="bind,utf8";removable
