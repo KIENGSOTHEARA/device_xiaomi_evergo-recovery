@@ -35,8 +35,8 @@ on property:twrp.all.users.decrypted=true
     stop vendor.gatekeeper-qti
 
 # Runs after decryption, and running touchscreen service 
-on property:twrp.all.users.decrypted=true && property:init.svc.touchfeature-service=running
-    exec u:r:recovery:s0 -- /system/bin/sleep 5
+on property:init.svc.vendor.secure_element=running && property:init.svc.touchfeature-service=running
+    exec u:r:recovery:s0 -- /system/bin/sleep 3
 
     umount /vendor/firmware_mnt
     umount /firmware
