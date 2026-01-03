@@ -27,6 +27,9 @@
 /cache                 ext4    /dev/block/bootdevice/by-name/rescue                               flags=display="Cache";formattable;wipeduringfactoryreset
 /misc                  emmc    /dev/block/bootdevice/by-name/misc
 
+# Logs
+/logfs                 vfat    /dev/block/bootdevice/by-name/logfs                                flags=display="LogFS (UEFI)";fsflags="fmask=0000,dmask=0000,utf8,shortname=mixed"
+
 # VBMeta/AVB partitions
 /dtbo                  emmc    /dev/block/bootdevice/by-name/dtbo                                 flags=display="DTBO";backup=1;slotselect;flashimg=1
 /vbmeta                emmc    /dev/block/bootdevice/by-name/vbmeta                               flags=display="VBMeta";backup=1;backup=1;slotselect;flashimg=1
