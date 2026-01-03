@@ -16,8 +16,8 @@
 
 # Boot
 /boot                  emmc    /dev/block/bootdevice/by-name/boot                                 flags=display="Boot";backup=1;slotselect;flashimg=1
-/init_boot             emmc    /dev/block/bootdevice/by-name/init_boot                            flags=display="Init_Boot";slotselect;backup=1;flashimg=1
-/vendor_boot           emmc    /dev/block/bootdevice/by-name/vendor_boot                          flags=display="Vendor_Boot";slotselect;backup=1;flashimg=1
+/init_boot             emmc    /dev/block/bootdevice/by-name/init_boot                            flags=display="Init-Boot";slotselect;backup=1;flashimg=1
+/vendor_boot           emmc    /dev/block/bootdevice/by-name/vendor_boot                          flags=display="Vendor-Boot";slotselect;backup=1;flashimg=1
 /recovery              emmc    /dev/block/bootdevice/by-name/recovery                             flags=display="Recovery";slotselect;backup=1;flashimg=1
 
 # Data/Metadata
@@ -30,7 +30,7 @@
 # VBMeta/AVB partitions
 /dtbo                  emmc    /dev/block/bootdevice/by-name/dtbo                                 flags=display="DTBO";backup=1;slotselect;flashimg=1
 /vbmeta                emmc    /dev/block/bootdevice/by-name/vbmeta                               flags=display="VBMeta";backup=1;backup=1;slotselect;flashimg=1
-/vbmeta_system         emmc    /dev/block/bootdevice/by-name/vbmeta_system                        flags=display="VBMeta_System";backup=1;slotselect;flashimg=1
+/vbmeta_system         emmc    /dev/block/bootdevice/by-name/vbmeta_system                        flags=display="VBMeta System";backup=1;slotselect;flashimg=1
 
 # Persistent Firmware & Properties
 /persist               ext4    /dev/block/bootdevice/by-name/persist                              flags=display="Persist";backup=0
