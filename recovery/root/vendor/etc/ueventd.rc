@@ -64,7 +64,7 @@
 # Firmware directory Path
 # Below macro will be read by uevent and path will
 # be added to search path for firmware loading
-firmware_directories /firmware/image/ /vendor/firmware/
+firmware_directories /firmware/image/ /vendor/firmware/ /vendor/firmware_mnt/image
 
 subsystem mem_buf_vm
     devname uevent_devpath
