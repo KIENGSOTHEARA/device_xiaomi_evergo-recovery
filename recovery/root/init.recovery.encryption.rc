@@ -19,7 +19,6 @@ on property:crypto.ready=1
     start vendor.keymint-strongbox
     start vendor.weaver
     start vendor.secure_element
-    install_keyring
 
 # Runs after decryption
 on property:twrp.all.users.decrypted=true
