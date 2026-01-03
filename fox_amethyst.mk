@@ -27,9 +27,6 @@ OF_LOOP_DEVICE_ERRORS_TO_LOG := 1
 # Security (Disables MTP & ADB during password prompt)
 #OF_ADVANCED_SECURITY := 1
 
-# Breaks everything, needs investigation
-OF_NO_SPLASH_CHANGE := 1
-
 # Ensure that /sdcard is unbinded before f2fs data repair or format
 OF_UNBIND_SDCARD_F2FS := 1
 
