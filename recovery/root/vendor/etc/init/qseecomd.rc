@@ -5,7 +5,6 @@ on fs
     chown system system /dev/ion
 
 service vendor.qseecomd /vendor/bin/qseecomd
-    class core
     user root
     group root drmrpc
     socket notify-topology stream 660 system drmrpc

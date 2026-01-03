@@ -3,7 +3,6 @@ on fs
     start vendor.health-qti
 
 service vendor.health-qti /vendor/bin/hw/android.hardware.health-service.qti
-    class hal
     user system
     group system
     capabilities WAKE_ALARM BLOCK_SUSPEND
