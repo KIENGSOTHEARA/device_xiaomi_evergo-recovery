@@ -77,7 +77,6 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ];
 
     # Store settings at /data/recovery instead of internal storage
     # export FOX_USE_DATA_RECOVERY_FOR_SETTINGS=1
-    export FOX_ALLOW_EARLY_SETTINGS_LOAD=1
 
     # Use latest "magiskboot" binaries as this is a relatively new device
     export FOX_USE_UPDATED_MAGISKBOOT=1
