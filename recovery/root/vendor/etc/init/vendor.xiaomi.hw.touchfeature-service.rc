@@ -1,4 +1,4 @@
-on property:twrp.firmware.mounted=true
+on init
     mkdir /data/vendor/mqsas_common 0771 system system
     mkdir /data/vendor/touch 0771 system system
     mkdir /data/vendor/touch_state 0771 system system
