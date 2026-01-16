@@ -52,6 +52,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ];
     export TARGET_DEVICE_ALT="amethyst"
 
     # Binaries & Tools
+    export FOX_USE_BUSYBOX_BINARY=1
     export FOX_USE_BASH_SHELL=1
     export FOX_USE_TAR_BINARY=1
     export FOX_USE_SED_BINARY=1
