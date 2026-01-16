@@ -103,6 +103,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ];
     # Debugging
     ## export FOX_RESET_SETTINGS=0
     ## export FOX_INSTALLER_DEBUG_MODE=1
+    ## OF_REPORT_HARMLESS_MOUNT_ISSUES=1
   else
     if [ -z "$FOX_BUILD_DEVICE" ] && [ -z "$BASH_SOURCE" ] && [ -z "$ZSH_VERSION" ]; 
       then echo "I: This script requires bash or zsh. Not processing $FDEVICE"
