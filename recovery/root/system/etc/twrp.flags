@@ -44,7 +44,7 @@
 /modem                 vfat    /dev/block/bootdevice/by-name/modem                                flags=display="Modem";slotselect;fsflags="ro,shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware_file:s0 wait"
 /modem_image           emmc    /dev/block/bootdevice/by-name/modem                                flags=display="Modem/Bluetooth";slotselect;backup=1
 
-/dsp                   vfat    /dev/block/bootdevice/by-name/dsp                                  flags=display="DSP";slotselect
+/dsp                   ext4    /dev/block/bootdevice/by-name/dsp                                  flags=display="DSP";slotselect;fsflags="ro"
 /dsp_image             emmc    /dev/block/bootdevice/by-name/dsp                                  flags=display="DSP";slotselect;backup=1;subpartitionof=/modem_image
 
 /bluetooth             vfat    /dev/block/bootdevice/by-name/bluetooth                            flags=display="Bluetooth";slotselect;fsflags="ro,shortname=lower,uid=1002,gid=3002,dmask=227,fmask=337,context=u:object_r:bt_firmware_file:s0 wait"
