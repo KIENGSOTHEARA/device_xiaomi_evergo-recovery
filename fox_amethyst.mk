@@ -1,4 +1,4 @@
-# OrangeFox maintainer - this will be shown on about screen
+# OrangeFox maintainer
 OF_MAINTAINER := chickendrop89
 
 # Screen settings
@@ -8,6 +8,17 @@ OF_STATUS_INDENT_LEFT := 48
 OF_STATUS_INDENT_RIGHT := 48
 OF_ALLOW_DISABLE_NAVBAR := 0
 OF_CLOCK_POS := 1 # Left & Right
+OF_OPTIONS_LIST_NUM := 9
+
+# Quick backup (Boot, sensor data)
+OF_QUICK_BACKUP_LIST := /boot;/persist_image
+
+# Flashlight & LEDs
+OF_FL_PATH1	:= /tmp/of_torch
+OF_USE_GREEN_LED := 0
+
+# Security (Disables MTP & ADB during password prompt)
+#OF_ADVANCED_SECURITY := 1
 
 # HOS & Custom ROMs
 OF_NO_TREBLE_COMPATIBILITY_CHECK := 1
@@ -17,29 +28,16 @@ OF_DEFAULT_KEYMASTER_VERSION := 4.1
 OF_AB_DEVICE_WITH_RECOVERY_PARTITION := 1
 OF_ENABLE_ALL_PARTITION_TOOLS := 1
 
-# Flashlight & LEDs
-OF_FL_PATH1	:= /tmp/of_torch
-OF_USE_GREEN_LED := 0
-
-# Remove the loop block errors after flashing ZIPs (Workaround)
+# Ignore the loop block errors after flashing ZIPs
 OF_LOOP_DEVICE_ERRORS_TO_LOG := 1
 
-# Security (Disables MTP & ADB during password prompt)
-#OF_ADVANCED_SECURITY := 1
-
-# Ensure that /sdcard is unbinded before f2fs data repair or format
-OF_UNBIND_SDCARD_F2FS := 1
-
-# Number of list options before scrollbar creation
-OF_OPTIONS_LIST_NUM := 9
-
-# Quick backup (Boot, callibration data)
-OF_QUICK_BACKUP_LIST := /boot;/persist_image
-
-# Use legacy code to fix quirky clock issues
+# Use legacy code to fix clock issues
 OF_USE_LEGACY_TIME_FIXUP := 1
 
-# Force "F2FS" when formatting data
+# Ensure that /sdcard is unbinded before /data repair/format
+OF_UNBIND_SDCARD_F2FS := 1
+
+# Force "F2FS" when formatting /data
 OF_FORCE_DATA_FORMAT_F2FS := 1
 
 # Force casefolding to avoid /data issues
