@@ -4,6 +4,7 @@
 service virtual_torch /system/bin/virtual_torch.sh
     user root
     group root
+    priority 5
     disabled
     seclabel u:r:recovery:s0
 

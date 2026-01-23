@@ -6,4 +6,5 @@ service vendor.prepdecrypt /system/bin/prepdecrypt.sh
     group root
     oneshot
     seclabel u:r:recovery:s0
+    priority -15
     ioprio rt 3
