@@ -19,10 +19,10 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 # OTA device(s)
 TARGET_OTA_ASSERT_DEVICE := amethyst
 
-# Boot control, Firmware
+# Boot control, Kernel prebuilts
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.2-impl-qti.recovery \
-    miui_prebuilt
+    vendor_kernel_prebuilts
 
 # FastbootD support
 PRODUCT_PACKAGES += \
