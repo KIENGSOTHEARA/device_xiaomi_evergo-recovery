@@ -38,6 +38,9 @@ OF_LOOP_DEVICE_ERRORS_TO_LOG := 1
 # Use legacy code to fix clock issues
 OF_USE_LEGACY_TIME_FIXUP := 1
 
+# Wipe /metadata after /data format
+OF_WIPE_METADATA_AFTER_DATAFORMAT := 1
+
 # Ensure that /sdcard is unbinded before /data repair/format
 OF_UNBIND_SDCARD_F2FS := 1
 
