@@ -19,16 +19,20 @@ Battery                 | Non-removable Li-Po 5110 mAh (Global)
 Dimensions              | 162.5 x 74.7 x 8.8 mm
 Display                 | 6.67" CrystalRes AMOLED, 120Hz, 1220x2712
 
-## Features
+## Checklist
 - [x] ADB
 - [x] Decryption
-- [x] Display/Touchscreen
+- [x] Touchscreen
 - [x] FastbootD
 - [x] Flashing
 - [x] MTP
 - [x] Sideload
-- [x] Haptics/Vibrator
+- [x] Backups
+- [x] Filesystems/Mounts
+- [x] Slot switch
+- [x] Haptics
 - [x] Flashlight
+- [x] Custom splash
 
 ## How to build
 This recovery tree was initially made for `amethyst`. For historical purposes,
