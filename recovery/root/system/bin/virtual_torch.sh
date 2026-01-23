@@ -1,5 +1,8 @@
 #!/sbin/sh
 
+# Copyright (C) 2026 chickendrop89
+# SPDX-License-Identifier: GPL-3.0-only
+
 # The problem is that OrangeFox doesn't understand that every time that 
 # the switch brightness is set to 0 (when flashlight is turned off via button),
 # the torch brightness is reset to 0 as well.
@@ -9,8 +12,6 @@
 #
 # This workaround creates a virtual torch brightness control node that 
 # handles this extra step for OrangeFox, and makes the flashlight feature work.
-# 
-# Author: chickendrop89
 
 BRIGHTNESS_LEVEL=430
 VIRTUAL_TORCH_DIR=/tmp/of_torch

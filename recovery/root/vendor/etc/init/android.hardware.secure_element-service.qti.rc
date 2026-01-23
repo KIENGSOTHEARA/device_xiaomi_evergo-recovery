@@ -1,3 +1,7 @@
+# Copyright (C) 2025 The Android Open Source Project
+# Copyright (C) 2026 chickendrop89
+# SPDX-License-Identifier: Apache-2.0
+
 service vendor.secure_element /vendor/bin/hw/android.hardware.secure_element-service.qti
     interface aidl android.hardware.secure_element.ISecureElement/eSE1
     user system

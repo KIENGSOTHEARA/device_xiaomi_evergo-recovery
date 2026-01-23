@@ -1,8 +1,6 @@
-#
-# Copyright (C) 2023 The Android Open Source Project
-#
-# SPDX-License-Identifier: Apache-2.0
-#
+# Copyright (C) 2025-2026 OrangeFox Recovery Project
+# Copyright (C) 2026 chickendrop89
+# SPDX-License-Identifier: GPL-3.0-only
 
 # Inherit from these configurations
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)

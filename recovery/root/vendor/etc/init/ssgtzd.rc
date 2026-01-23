@@ -1,3 +1,7 @@
+# Copyright (C) 2025 The Android Open Source Project
+# Copyright (C) 2026 chickendrop89
+# SPDX-License-Identifier: Apache-2.0
+
 on post-fs-data
     mkdir /data/vendor/qwes 0755 system system
 

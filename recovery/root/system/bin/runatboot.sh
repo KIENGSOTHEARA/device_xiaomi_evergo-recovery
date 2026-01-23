@@ -1,8 +1,9 @@
 #!/system/bin/sh
 
+# Copyright (C) 2026 chickendrop89
+# SPDX-License-Identifier: GPL-3.0-only
+
 # Load batterysecret, and touch drivers/services if they didn't load properly
-#
-# Author: chickendrop89
 
 MODULES_DIR="/vendor/lib/modules"
 QCOM_BATTERY_DIR="/sys/class/qcom-battery"

@@ -1,8 +1,6 @@
-#
 # Copyright (C) 2023 The Android Open Source Project
-#
-# SPDX-License-Identifier: Apache-2.0
-#
+# Copyright (C) 2026 chickendrop89
+# SPDX-License-Identifier: GPL-3.0-only
 
 PRODUCT_MAKEFILES := $(LOCAL_DIR)/twrp_amethyst.mk
 
