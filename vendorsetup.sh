@@ -68,6 +68,10 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ];
     # Use latest "magiskboot" binaries as this is a relatively new device
     export FOX_USE_UPDATED_MAGISKBOOT=1
 
+    # Very interesting, drops the ramdisk image size by ~6MB
+    # While keeping the same boot times. Needs testing.
+    # export FOX_COMPRESS_EXECUTABLES=1
+  
     # CCACHE
     export USE_CCACHE=1
     export CCACHE_EXEC="/usr/bin/ccache"
