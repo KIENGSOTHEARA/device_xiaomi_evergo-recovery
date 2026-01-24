@@ -17,9 +17,9 @@ $(call inherit-product, device/xiaomi/amethyst/fox_amethyst.mk)
 
 ## Device identifier
 PRODUCT_DEVICE := amethyst
-PRODUCT_BRAND := Xiaomi
+PRODUCT_BRAND := Redmi
 PRODUCT_MODEL := Redmi Note 14 Pro+ 5G
-PRODUCT_MANUFACTURER := $(PRODUCT_BRAND)
-PRODUCT_NAME := twrp_${PRODUCT_DEVICE}
+PRODUCT_MANUFACTURER := Xiaomi
+PRODUCT_NAME := twrp_$(PRODUCT_DEVICE)
 
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
