@@ -53,8 +53,7 @@ if [ "$1" = "$FDEVICE" -o "$FOX_BUILD_DEVICE" = "$FDEVICE" ];
     export FOX_DELETE_AROMAFM=1
     export FOX_DELETE_INITD_ADDON=1
 
-    # KernelSU / SukiSu support
-    export FOX_ENABLE_KERNELSU_SUPPORT=1
+    # KernelSU-Next / SukiSu support
     export FOX_ENABLE_KERNELSU_NEXT_SUPPORT=1
     export FOX_ENABLE_SUKISU_SUPPORT=1
 
