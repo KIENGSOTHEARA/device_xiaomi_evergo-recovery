@@ -32,6 +32,9 @@ OF_DEFAULT_KEYMASTER_VERSION := 4.1
 OF_AB_DEVICE_WITH_RECOVERY_PARTITION := 1
 OF_ENABLE_ALL_PARTITION_TOOLS := 1
 
+# Fix recovery issues caused by large splash images
+OF_SPLASH_MAX_SIZE = 2048
+
 # Ignore the loop block errors after flashing ZIPs
 OF_LOOP_DEVICE_ERRORS_TO_LOG := 1
 
