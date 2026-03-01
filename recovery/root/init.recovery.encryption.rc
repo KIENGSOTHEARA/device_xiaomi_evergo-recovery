@@ -18,8 +18,6 @@ on property:ro.crypto.state=encrypted && property:twrp.firmware.mounted=true
 
 # Runs after decryption
 on property:twrp.all.users.decrypted=true
-    setprop crypto.ready 0
-
     stop keystore2
     stop vendor.secure_element
     stop se_omapi
