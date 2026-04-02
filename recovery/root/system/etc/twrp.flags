@@ -79,6 +79,7 @@
 /uefivarstore          emmc    /dev/block/bootdevice/by-name/uefivarstore                         flags=backup=1;slotselect;subpartitionof=/abl
 /uefisecapp            emmc    /dev/block/bootdevice/by-name/uefisecapp                           flags=backup=1;slotselect;subpartitionof=/abl
 /aop                   emmc    /dev/block/bootdevice/by-name/aop                                  flags=backup=1;slotselect;subpartitionof=/abl
+/aop_config            emmc    /dev/block/bootdevice/by-name/aop_config                           flags=backup=1;slotselect;subpartitionof=/abl
 /devcfg                emmc    /dev/block/bootdevice/by-name/devcfg                               flags=backup=1;slotselect;subpartitionof=/abl
 /qupfw                 emmc    /dev/block/bootdevice/by-name/qupfw                                flags=backup=1;slotselect;subpartitionof=/abl
 /featenabler           emmc    /dev/block/bootdevice/by-name/featenabler                          flags=backup=1;slotselect;subpartitionof=/abl
@@ -97,6 +98,9 @@
 /tzsc                  emmc    /dev/block/bootdevice/by-name/tzsc                                 flags=backup=1;subpartitionof=/abl
 /toolsfv               emmc    /dev/block/bootdevice/by-name/toolsfv                              flags=backup=1;subpartitionof=/abl
 /charger               emmc    /dev/block/bootdevice/by-name/charger                              flags=backup=1;subpartitionof=/abl
+/dpm                   emmc    /dev/block/bootdevice/by-name/dpm                                  flags=backup=1;subpartitionof=/abl
+/apdp                  emmc    /dev/block/bootdevice/by-name/apdp                                 flags=backup=1;subpartitionof=/abl
+/apdpb                 emmc    /dev/block/bootdevice/by-name/apdpb                                flags=backup=1;subpartitionof=/abl
 
 # Removable storage
 /storage       	       auto    /data/media/0                  		                              flags=display="Internal Storage";backup=1;usermrf;fsflags="bind,utf8";removable
