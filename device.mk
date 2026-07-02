@@ -41,9 +41,8 @@ PRODUCT_PACKAGES += \
     otapreopt_script \
     checkpoint_gc
 
-# Symlink /vendor/firmware to /odm/firmware for haptics and touchfeature
 BOARD_ROOT_EXTRA_SYMLINKS += \
-    /vendor/firmware:/vendor/odm/firmware
+    /vendor/odm/firmware:/vendor/odm/firmware/p16u
 
 # API
 PRODUCT_SHIPPING_API_LEVEL  := 34
