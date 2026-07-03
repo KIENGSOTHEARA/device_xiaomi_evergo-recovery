@@ -17,7 +17,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/developer_gsi_keys.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 # OTA device(s)
-TARGET_OTA_ASSERT_DEVICE := amethyst
+TARGET_OTA_ASSERT_DEVICE := amethyst,amethyst_global
 
 # FastbootD support
 PRODUCT_PACKAGES += \
